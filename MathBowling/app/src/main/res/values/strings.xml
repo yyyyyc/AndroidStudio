@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">באולינג חשבון</string>
+    <string name="menu_title">באולינג חשבון</string>
+    <string name="menu_subtitle">פתרו את החידה, הטו את הטלפון ימינה ושמאלה, וגלגלו את הכדור אל הקונוס עם התשובה הנכונה!</string>
+    <string name="choose_level">בחרו רמת קושי</string>
+    <string name="level_easy">קל</string>
+    <string name="level_medium">בינוני</string>
+    <string name="level_hard">קשה</string>
+    <string name="touch_hint">החליקו אצבע למעלה כדי לקפוץ · הטו קדימה כדי להאיץ</string>
+    <string name="best_line">שיאים · קל: %1$d · בינוני: %2$d · קשה: %3$d</string>
+    <string name="score">נקודות: %1$d</string>
+    <string name="progress">שאלה %1$d מתוך %2$d</string>
+    <string name="go">יאללה!</string>
+    <string name="wrong">אופס! התשובה הנכונה היא %1$s</string>
+    <string name="game_over">סיום המשחק!</string>
+    <string name="final_score">עניתם נכון על %1$d מתוך %2$d שאלות</string>
+    <string name="best">השיא שלכם ברמה הזאת: %1$d</string>
+    <string name="new_best">שיא חדש! 🏆</string>
+    <string name="play_again">שחקו שוב</string>
+    <string name="to_menu">לתפריט</string>
+    <string name="msg_perfect">מושלם! אתם אלופים!</string>
+    <string name="msg_great">כל הכבוד! תוצאה מצוינת!</string>
+    <string name="msg_good">יפה מאוד! תמשיכו להתאמן!</string>
+    <string name="msg_try">לא נורא, נסו שוב!</string>
+    <string-array name="praise">
+        <item>כל הכבוד!</item>
+        <item>מעולה!</item>
+        <item>בול!</item>
+        <item>אלופים!</item>
+        <item>איזו זריקה!</item>
+        <item>נכון מאוד!</item>
+        <item>פיצוץ!</item>
+    </string-array>
+    <string name="options">⚙ הגדרות</string>
+    <string name="options_title">הגדרות</string>
+    <string name="options_language">שפת המשחק</string>
+    <string name="lang_he">עברית</string>
+    <string name="lang_en">English</string>
+    <string name="options_speak">הקראת השאלה בקול</string>
+    <string name="options_music">מוזיקה</string>
+    <string name="options_blowout">💥 מצב פיצוץ: אמירת התשובה מפוצצת את הקונוסים והכדור דוהר לשאלה הבאה</string>
+    <string name="options_speed">מהירות הכדור</string>
+    <string name="options_tilt">רגישות ההטיה</string>
+    <string-array name="speed_names">
+        <item>איטית מאוד</item>
+        <item>איטית</item>
+        <item>רגילה</item>
+        <item>מהירה</item>
+        <item>מהירה מאוד</item>
+    </string-array>
+    <string-array name="tilt_names">
+        <item>נמוכה ביותר</item>
+        <item>נמוכה מאוד</item>
+        <item>נמוכה</item>
+        <item>קצת נמוכה</item>
+        <item>רגילה</item>
+        <item>קצת גבוהה</item>
+        <item>גבוהה</item>
+        <item>גבוהה מאוד</item>
+        <item>גבוהה ביותר</item>
+    </string-array>
+    <string name="options_controls">איך משחקים:\n• הטו ימינה ושמאלה כדי לכוון\n• הטו קדימה כדי להאיץ, ואחורה כדי להאט\n• החליקו אצבע למעלה או נערו את הטלפון כדי לקפוץ (קפיצה מאוחרת מדי עפה מעל הקונוסים!)\n• אפשר גם להחזיק אצבע בצד ימין או שמאל של המסך\n• עם \"תשובה בקול\": אמרו את התשובה והכדור יתגלגל אליה לבד</string>
+    <string name="options_back">חזרה</string>
+    <string name="tts_missing">לא מותקן בטלפון קול לשפה הזאת. אפשר להוסיף אותו בהגדרות \"המרת טקסט לדיבור\".</string>
+    <string name="jumped_over">הכדור קפץ מעל הקונוסים! התשובה הנכונה היא %1$s</string>
+    <string name="mode_math">🔢 חשבון</string>
+    <string name="mode_arabic">📖 ערבית</string>
+    <string name="menu_title_arabic">באולינג ערבית</string>
+    <string name="menu_subtitle_arabic">קראו את המילה בערבית, הטו את הטלפון וגלגלו את הכדור אל הקונוס עם הפירוש הנכון! לחצו על המילה כדי לשמוע אותה.</string>
+    <string name="options_translit">הצגת תעתיק (ערבית ורוסית)</string>
+    <string name="mode_russian">🪆 רוסית</string>
+    <string name="menu_title_russian">באולינג רוסית</string>
+    <string name="menu_subtitle_russian">קראו את המילה ברוסית, הטו את הטלפון וגלגלו את הכדור אל הקונוס עם הפירוש הנכון! לחצו על המילה כדי לשמוע אותה.</string>
+    <string name="mode_ai">🤖 בינה מלאכותית</string>
+    <string name="menu_title_ai">באולינג AI</string>
+    <string name="menu_subtitle_ai">ענו על שאלות על בינה מלאכותית: הטו את הטלפון, גלגלו את הכדור אל התשובה הנכונה, וקראו את ההסבר אחרי כל זריקה!</string>
+    <string name="endless_switch">🛣️ מסלול אינסופי (3 פסילות)</string>
+    <string name="progress_endless">שאלה %1$d</string>
+    <string name="endless_score">הגעתם ל־%1$d תשובות נכונות במסלול האינסופי!</string>
+    <string name="options_voice">🎤 תשובה בקול (אמרו את התשובה)</string>
+    <string name="voice_listening">🎤 מקשיב… אמרו את התשובה</string>
+    <string name="voice_heard">🎤 %1$s</string>
+    <string name="voice_permission">כדי לענות בקול צריך לאשר גישה למיקרופון</string>
+    <string name="voice_unavailable">זיהוי דיבור לא זמין בטלפון הזה</string>
+    <string name="mp_button">👥 משחק לשניים ברשת</string>
+    <string name="mp_title">משחק לשניים</string>
+    <string name="mp_explain">שני הטלפונים צריכים להיות מחוברים לאותה רשת Wi‑Fi. המשחק משתמש במצב ובמסלול שהמארח בחר בתפריט, ושניכם מקבלים בדיוק את אותן שאלות. מי שעונה נכון על יותר שאלות מנצח, ובתיקו – המהיר יותר.</string>
+    <string name="mp_host">צרו משחק</string>
+    <string name="mp_join">הצטרפו למשחק</string>
+    <string name="mp_ip_hint">או הקלידו את הכתובת שמופיעה אצל המארח</string>
+    <string name="mp_connect">התחברו</string>
+    <string name="mp_choose">בחרו: ליצור משחק חדש או להצטרף למשחק של חבר</string>
+    <string name="mp_waiting">ממתינים לשחקן השני…\nהכתובת שלכם: %1$s</string>
+    <string name="mp_searching">מחפשים משחקים ברשת…</string>
+    <string name="mp_connecting">מתחברים…</string>
+    <string name="mp_connected_host">מחובר! 🎉\nבחרו רמה כדי להתחיל (%1$s)</string>
+    <string name="mp_connected_guest">מחובר! 🎉\nממתינים שהמארח יבחר רמה…</string>
+    <string name="mp_failed">ההתחברות נכשלה. ודאו ששני הטלפונים מחוברים לאותה רשת.</string>
+    <string name="mp_disconnected">החיבור לשחקן השני נותק</string>
+    <string name="mp_opponent">🆚 יריב: %1$d נקודות · שאלה %2$d</string>
+    <string name="mp_opponent_done">🆚 היריב סיים: %1$d נקודות</string>
+    <string name="mp_wait_result">ממתינים שהיריב יסיים… (כרגע: %1$d נקודות)</string>
+    <string name="mp_win">ניצחתם! 🏆</string>
+    <string name="mp_win_time">ניצחתם – הייתם מהירים יותר! 🏆</string>
+    <string name="mp_lose">היריב ניצח הפעם 💪</string>
+    <string name="mp_lose_time">היריב ניצח – הוא היה מהיר יותר 💪</string>
+    <string name="mp_tie">תיקו! 🤝</string>
+    <string name="mp_scores">אתם: %1$d · היריב: %2$d</string>
+    <string name="mp_wait_host">ממתינים למארח…</string>
+    <string name="mode_custom">📝 השאלות שלי</string>
+    <string name="menu_title_custom">השאלות שלי</string>
+    <string name="menu_subtitle_custom">שאלות מקובץ שכתבתם בעצמכם</string>
+    <string name="custom_title">📝 השאלות שלי</string>
+    <string name="custom_load">טעינת קובץ</string>
+    <string name="custom_sample">יצירת קובץ דוגמה</string>
+    <string name="custom_status">נטענו %1$d שאלות מהקובץ %2$s. ערכתם אותו? המשחק קורא אותו מחדש כשחוזרים לתפריט.</string>
+    <string name="custom_status_none">עוד לא נטען קובץ. צרו קובץ דוגמה (למשל ב־Google Drive), ערכו אותו בכל עורך טקסט – גם במחשב – וטענו אותו כאן.</string>
+    <string name="custom_loaded">נטענו %1$d שאלות 🎉</string>
+    <string name="custom_bad_lines">שורות שלא הובנו: %1$s\nכל שורה צריכה להיות: שאלה | תשובה נכונה | לפחות שתי תשובות שגויות.</string>
+    <string name="custom_empty">לא נמצאו שאלות בקובץ.\nכל שורה צריכה להיראות כך:\nשאלה | תשובה נכונה | תשובה שגויה | תשובה שגויה</string>
+    <string name="custom_none">עוד אין שאלות משלכם – טענו קובץ בהגדרות</string>
+    <string name="custom_read_failed">לא הצלחתי לקרוא את הקובץ</string>
+    <string name="custom_sample_saved">קובץ הדוגמה נשמר ונטען. ערכו אותו כרצונכם – השינויים ייטענו כשתחזרו למשחק.</string>
+    <string name="options_shake">📳 קפיצה בניעור הטלפון</string>
+    <string name="pause">השהיה</string>
+    <string name="paused">המשחק מושהה</string>
+    <string name="resume">המשך</string>
+    <string name="exit_game">יציאה</string>
+    <string name="exit_confirm">לצאת מהמשחק?</string>
+    <string name="options_fast_voice">⚡ זיהוי מהיר בתוך הטלפון (אם יש חבילת דיבור לא מקוונת)</string>
+    <string name="ai_open">🤖 מבחן על כל נושא או מסמך (AI)</string>
+    <string name="ai_title">🤖 מבחן על כל נושא</string>
+    <string name="ai_explain">כתבו על מה תרצו מבחן – ו־ChatGPT יכין אותו. אפשר גם לצרף חומר: קובץ (PDF, ‏Word, טקסט או צילום של עמוד), קישור לאתר או טקסט מודבק.</string>
+    <string name="ai_key_label">מפתח OpenAI API</string>
+    <string name="ai_key_hint">sk-…</string>
+    <string name="ai_key_note">יוצרים מפתח ב־platform.openai.com/api-keys. המפתח נשמר רק בטלפון הזה ולא נכלל בגיבויים. כל מבחן עולה מעט כסף מהקרדיט בחשבון OpenAI.</string>
+    <string name="ai_source_label">חומר (לא חובה) – אם תצרפו, השאלות יהיו רק ממנו</string>
+    <string name="ai_pick_file">📄 בחירת קובץ</string>
+    <string name="ai_no_file">לא נבחר קובץ</string>
+    <string name="ai_url_hint">או קישור לאתר: https://…</string>
+    <string name="ai_text_hint">או הדביקו כאן טקסט</string>
+    <string name="ai_count_label">כמה שאלות?</string>
+    <string name="ai_lang_label">שפת המבחן</string>
+    <string name="ai_model_label">מודל (מתקדם)</string>
+    <string name="ai_model_hint">gpt-5-mini</string>
+    <string name="ai_create">✨ יצירת המבחן</string>
+    <string name="ai_reading">קורא את המקור…</string>
+    <string name="ai_working">ChatGPT כותב את השאלות… (בדרך כלל חצי דקה עד שתי דקות)</string>
+    <string name="ai_cancel">ביטול</string>
+    <string name="ai_need_key">הדביקו קודם מפתח OpenAI API</string>
+    <string name="ai_need_source">כתבו על מה המבחן, או צרפו קובץ, קישור או טקסט</string>
+    <string name="ai_too_short">יש מעט מדי טקסט במקור כדי להכין ממנו מבחן</string>
+    <string name="ai_err_key">מפתח ה־API לא תקין. בדקו שהעתקתם אותו במלואו.</string>
+    <string name="ai_err_quota">OpenAI לא אישרו את הבקשה: אין מספיק קרדיט בחשבון או שנשלחו יותר מדי בקשות. בדקו ב־platform.openai.com/usage</string>
+    <string name="ai_err_api">OpenAI החזירו שגיאה (%1$s):\n%2$s</string>
+    <string name="ai_err_network">אין חיבור לאינטרנט, או שהשרת לא ענה בזמן. נסו שוב.</string>
+    <string name="ai_err_big">הקובץ גדול מדי (עד 20MB)</string>
+    <string name="ai_err_link">לא הצלחתי לפתוח את הקישור (%1$s). אפשר להעתיק את הטקסט מהאתר ולהדביק אותו כאן.</string>
+    <string name="ai_err_empty">לא התקבלו שאלות. נסו מקור אחר או פחות שאלות.</string>
+    <string name="ai_err_docx">לא הצלחתי לקרוא את קובץ ה־Word</string>
+    <string name="ai_err_refused">המודל סירב להכין מבחן מהמקור הזה</string>
+    <string name="ai_err_other">משהו השתבש: %1$s</string>
+    <string name="ai_ready_title">המבחן מוכן: %1$s</string>
+    <string name="ai_ready_body">נוצרו %1$d שאלות. לדוגמה:\n\n%2$s</string>
+    <string name="ai_play">▶ לשחק</string>
+    <string name="ai_save_file">💾 גם כקובץ לעריכה</string>
+    <string name="ai_loaded">המבחן נטען ל״השאלות שלי״ – בחרו רמה כדי להתחיל</string>
+    <string name="ai_saved">המבחן נשמר בקובץ ונטען. אפשר לערוך אותו כמו כל קובץ שאלות.</string>
+    <string name="ai_topic_label">✍️ על מה המבחן?</string>
+    <string name="ai_topic_hint">למשל: תעשה לי מבחן על מלחמת העולם השנייה</string>
+    <string name="ai_pasted_name">טקסט מודבק</string>
+    <string name="ai_count_hint">או מספר אחר (עד 300)</string>
+    <string name="ai_count_range">אפשר לבקש בין 1 ל־%1$d שאלות</string>
+    <string name="ai_working_part">ChatGPT כותב את השאלות… חלק %1$d מתוך %2$d (כל חלק לוקח בערך דקה)</string>
+    <string name="lib_save">💾 שמירה בשם</string>
+    <string name="lib_open">📂 המבחנים שלי</string>
+    <string name="lib_title">📂 המבחנים שלי</string>
+    <string name="lib_save_title">💾 שמירת המבחן בשם</string>
+    <string name="lib_name_hint">שם המבחן</string>
+    <string name="lib_save_button">שמירה</string>
+    <string name="lib_saved">נשמר בשם \"%1$s\"</string>
+    <string name="lib_overwrite">כבר יש מבחן בשם \"%1$s\". להחליף אותו?</string>
+    <string name="lib_replace">החלפה</string>
+    <string name="lib_empty">עוד אין מבחנים שמורים.\nטענו קובץ או צרו מבחן עם AI, ואז לחצו \"שמירה בשם\".</string>
+    <string name="lib_count">%1$d שאלות</string>
+    <string name="lib_load">▶ טעינה</string>
+    <string name="lib_export">📤 ייצוא לקובץ</string>
+    <string name="lib_delete">🗑 מחיקה</string>
+    <string name="lib_delete_confirm">למחוק את המבחן \"%1$s\"?</string>
+    <string name="lib_deleted">המבחן \"%1$s\" נמחק</string>
+    <string name="lib_loaded">המבחן \"%1$s\" נטען – בחרו רמה כדי להתחיל</string>
+    <string name="options_barge_in">🗣️ לענות כבר בזמן ההקראה (עלול להאט קצת את הזיהוי)</string>
+</resources>

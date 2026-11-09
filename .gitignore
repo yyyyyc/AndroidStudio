@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+**/build/
+**/.gradle/
+
+# Android Studio
+.idea/
+*.iml
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Compiled files
+*.apk
+*.aab
+*.class
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets
+*.jks
+*.keystore

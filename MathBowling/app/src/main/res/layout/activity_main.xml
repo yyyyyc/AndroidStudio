@@ -1,0 +1,1264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0C0F1F"
+    android:layoutDirection="locale">
+
+    <android.opengl.GLSurfaceView
+        android:id="@+id/glView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/flash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="#FFF3C0" />
+
+    <LinearLayout
+        android:id="@+id/hud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="44dp"
+            android:orientation="horizontal"
+            android:paddingLeft="56dp"
+            android:paddingRight="104dp">
+
+            <TextView
+                android:id="@+id/tvScore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:shadowColor="#000000"
+                android:shadowRadius="4"
+                android:textColor="#FFE36E"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvProgress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:shadowColor="#000000"
+                android:shadowRadius="4"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvOpponent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:shadowColor="#000000"
+            android:shadowRadius="4"
+            android:textColor="#FFB3E6"
+            android:textSize="17sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/riddleCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="12dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="12dp">
+
+            <TextView
+                android:id="@+id/tvPrompt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tvExpression"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:textColor="#FFE36E"
+                android:textDirection="ltr"
+                android:textSize="44sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#B8C4FF"
+                android:textSize="22sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvHeard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:shadowColor="#000000"
+            android:shadowRadius="4"
+            android:textColor="#9FE8FF"
+            android:textSize="20sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvCountdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:translationY="-110dp"
+        android:shadowColor="#000000"
+        android:shadowDy="4"
+        android:shadowRadius="12"
+        android:textColor="#FFFFFF"
+        android:textSize="96sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvFeedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="72dp"
+        android:background="@drawable/bg_card"
+        android:gravity="center"
+        android:paddingLeft="24dp"
+        android:paddingTop="12dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="12dp"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B30A0D1C"
+        android:clickable="true"
+        android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="32dp"
+        android:paddingTop="24dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="24dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="#FF6A00"
+            android:shadowRadius="18"
+            android:text="@string/menu_title"
+            android:textColor="#FFD54F"
+            android:textSize="44sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/menu_subtitle"
+            android:textColor="#FFFFFF"
+            android:textSize="19sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnModeMath"
+                    style="@style/LevelButton"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/btn_blue"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@string/mode_math"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnModeArabic"
+                    style="@style/LevelButton"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/btn_blue"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@string/mode_arabic"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnModeRussian"
+                    style="@style/LevelButton"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/btn_blue"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@string/mode_russian"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnModeAi"
+                    style="@style/LevelButton"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/btn_blue"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@string/mode_ai"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnModeCustom"
+                style="@style/LevelButton"
+                android:layout_width="310dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_purple"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="@string/mode_custom"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/swEndless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:minHeight="44dp"
+            android:switchPadding="12dp"
+            android:text="@string/endless_switch"
+            android:textColor="#FFE36E"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/choose_level"
+            android:textColor="#B8C4FF"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnEasy"
+            style="@style/LevelButton"
+            android:background="@drawable/btn_easy"
+            android:text="@string/level_easy" />
+
+        <Button
+            android:id="@+id/btnMedium"
+            style="@style/LevelButton"
+            android:background="@drawable/btn_medium"
+            android:text="@string/level_medium" />
+
+        <Button
+            android:id="@+id/btnHard"
+            style="@style/LevelButton"
+            android:background="@drawable/btn_hard"
+            android:text="@string/level_hard" />
+
+        <Button
+            android:id="@+id/btnMultiplayer"
+            style="@style/LevelButton"
+            android:layout_height="52dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/btn_purple"
+            android:text="@string/mp_button"
+            android:textSize="19sp" />
+
+        <Button
+            android:id="@+id/btnOptions"
+            style="@style/LevelButton"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/btn_blue"
+            android:text="@string/options"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvBest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="#FFE36E"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/touch_hint"
+            android:textColor="#8890B8"
+            android:textSize="14sp" />
+    </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/gameOver"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CC0A0D1C"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="#FF6A00"
+            android:shadowRadius="18"
+            android:text="@string/game_over"
+            android:textColor="#FFD54F"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvOverScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tvOverMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="#7CFF6B"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvOverBest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="#FFE36E"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnAgain"
+            style="@style/LevelButton"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/btn_easy"
+            android:text="@string/play_again" />
+
+        <Button
+            android:id="@+id/btnMenu"
+            style="@style/LevelButton"
+            android:background="@drawable/btn_blue"
+            android:text="@string/to_menu" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/options"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0A0D1C"
+        android:clickable="true"
+        android:fillViewport="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="#FF6A00"
+                android:shadowRadius="18"
+                android:text="@string/options_title"
+                android:textColor="#FFD54F"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/options_language"
+                android:textColor="#B8C4FF"
+                android:textSize="18sp" />
+
+            <RadioGroup
+                android:id="@+id/rgLang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbHebrew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/lang_he"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp" />
+
+                <RadioButton
+                    android:id="@+id/rbEnglish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/lang_en"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp" />
+            </RadioGroup>
+
+            <Switch
+                android:id="@+id/swSpeak"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:minHeight="48dp"
+                android:text="@string/options_speak"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <Switch
+                android:id="@+id/swVoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:minHeight="48dp"
+                android:text="@string/options_voice"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <Switch
+                android:id="@+id/swBargeIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="48dp"
+                android:paddingStart="24dp"
+                android:text="@string/options_barge_in"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp" />
+
+            <Switch
+                android:id="@+id/swFastVoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="48dp"
+                android:paddingStart="24dp"
+                android:text="@string/options_fast_voice"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp" />
+
+            <Switch
+                android:id="@+id/swBlowout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="48dp"
+                android:paddingStart="24dp"
+                android:text="@string/options_blowout"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp" />
+
+            <Switch
+                android:id="@+id/swTranslit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:minHeight="48dp"
+                android:text="@string/options_translit"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <Switch
+                android:id="@+id/swMusic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:minHeight="48dp"
+                android:text="@string/options_music"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/options_speed"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvSpeedValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFD54F"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/sbSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/options_tilt"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvTiltValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFD54F"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/sbTilt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
+
+            <Switch
+                android:id="@+id/swShake"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:minHeight="48dp"
+                android:text="@string/options_shake"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/custom_title"
+                android:textColor="#B8C4FF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvCustomStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:lineSpacingExtra="4dp"
+                android:textColor="#DDE2FF"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="12dp"
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnLoadQuestions"
+                    style="@style/LevelButton"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_blue"
+                    android:text="@string/custom_load"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnSampleQuestions"
+                    style="@style/LevelButton"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_purple"
+                    android:text="@string/custom_sample"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="8dp"
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnSaveQuiz"
+                    style="@style/LevelButton"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_medium"
+                    android:text="@string/lib_save"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnMyQuizzes"
+                    style="@style/LevelButton"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_medium"
+                    android:text="@string/lib_open"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnAiQuiz"
+                style="@style/LevelButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_purple"
+                android:text="@string/ai_open"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/bg_card"
+                android:lineSpacingExtra="6dp"
+                android:padding="16dp"
+                android:text="@string/options_controls"
+                android:textColor="#DDE2FF"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnOptionsBack"
+                style="@style/LevelButton"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/btn_easy"
+                android:text="@string/options_back" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/mpPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0A0D1C"
+        android:clickable="true"
+        android:fillViewport="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="#FF6A00"
+                android:shadowRadius="18"
+                android:text="@string/mp_title"
+                android:textColor="#FFD54F"
+                android:textSize="38sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/mp_explain"
+                android:textColor="#DDE2FF"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/btnHostGame"
+                style="@style/LevelButton"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/btn_easy"
+                android:text="@string/mp_host" />
+
+            <Button
+                android:id="@+id/btnJoinGame"
+                style="@style/LevelButton"
+                android:background="@drawable/btn_blue"
+                android:text="@string/mp_join" />
+
+            <TextView
+                android:id="@+id/tvMpStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/bg_card"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:padding="14dp"
+                android:textColor="#FFE36E"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/mpGames"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/mpManual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/etIp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/mp_ip_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#8890B8"
+                    android:textDirection="ltr"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnMpConnect"
+                    style="@style/LevelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/btn_blue"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="@string/mp_connect"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mpLevels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnMpEasy"
+                    style="@style/LevelButton"
+                    android:background="@drawable/btn_easy"
+                    android:text="@string/level_easy" />
+
+                <Button
+                    android:id="@+id/btnMpMedium"
+                    style="@style/LevelButton"
+                    android:background="@drawable/btn_medium"
+                    android:text="@string/level_medium" />
+
+                <Button
+                    android:id="@+id/btnMpHard"
+                    style="@style/LevelButton"
+                    android:background="@drawable/btn_hard"
+                    android:text="@string/level_hard" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnMpBack"
+                style="@style/LevelButton"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/btn_purple"
+                android:text="@string/options_back" />
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/btnMusic"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="top|left"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_round"
+        android:gravity="center"
+        android:textSize="20sp" />
+
+    <ScrollView
+        android:id="@+id/aiPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0A0D1C"
+        android:clickable="true"
+        android:fillViewport="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="24dp"
+            android:paddingTop="64dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="32dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:shadowColor="#FFB000"
+                android:shadowRadius="14"
+                android:text="@string/ai_title"
+                android:textColor="#FFE36E"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/ai_explain"
+                android:textColor="#DDE2FF"
+                android:textSize="16sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/ai_key_label"
+                android:textColor="#B8C4FF"
+                android:textSize="17sp" />
+            <EditText
+                android:id="@+id/etAiKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/ai_key_hint"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#7C86B8"
+                android:textSize="17sp"
+                android:fontFamily="monospace"
+                android:importantForAutofill="no"
+                android:inputType="textPassword|textNoSuggestions"
+                android:singleLine="true"
+                android:textDirection="ltr" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ai_key_note"
+                android:textColor="#8C96C8"
+                android:textSize="13sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/ai_topic_label"
+                android:textColor="#B8C4FF"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/etAiTopic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|start"
+                android:hint="@string/ai_topic_hint"
+                android:inputType="textMultiLine|textCapSentences"
+                android:maxLines="4"
+                android:minLines="2"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#7C86B8"
+                android:textDirection="firstStrong"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/ai_source_label"
+                android:textColor="#B8C4FF"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnAiFile"
+                    style="@style/LevelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/btn_blue"
+                    android:paddingLeft="18dp"
+                    android:paddingRight="18dp"
+                    android:text="@string/ai_pick_file"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvAiFile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:text="@string/ai_no_file"
+                    android:textColor="#DDE2FF"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/btnAiClearFile"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_round"
+                    android:gravity="center"
+                    android:text="✕"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+            <EditText
+                android:id="@+id/etAiUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/ai_url_hint"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#7C86B8"
+                android:textSize="17sp"
+                android:layout_marginTop="10dp"
+                android:inputType="textUri"
+                android:singleLine="true"
+                android:textDirection="ltr" />
+            <EditText
+                android:id="@+id/etAiText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/ai_text_hint"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#7C86B8"
+                android:textSize="17sp"
+                android:layout_marginTop="6dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:maxLines="6"
+                android:minLines="3"
+                android:textDirection="firstStrong" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/ai_count_label"
+                android:textColor="#B8C4FF"
+                android:textSize="17sp" />
+
+            <RadioGroup
+                android:id="@+id/rgAiCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton android:id="@+id/rbAi10" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="8dp" android:text="10" android:textColor="#FFFFFF" android:textSize="19sp" />
+                <RadioButton android:id="@+id/rbAi15" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="8dp" android:checked="true" android:text="15" android:textColor="#FFFFFF" android:textSize="19sp" />
+                <RadioButton android:id="@+id/rbAi20" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="8dp" android:text="20" android:textColor="#FFFFFF" android:textSize="19sp" />
+                <RadioButton android:id="@+id/rbAi30" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="8dp" android:text="30" android:textColor="#FFFFFF" android:textSize="19sp" />
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/etAiCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="@string/ai_count_hint"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="3"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#7C86B8"
+                android:textSize="17sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/ai_lang_label"
+                android:textColor="#B8C4FF"
+                android:textSize="17sp" />
+
+            <RadioGroup
+                android:id="@+id/rgAiLang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton android:id="@+id/rbAiHe" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="16dp" android:text="@string/lang_he" android:textColor="#FFFFFF" android:textSize="19sp" />
+                <RadioButton android:id="@+id/rbAiEn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="16dp" android:text="@string/lang_en" android:textColor="#FFFFFF" android:textSize="19sp" />
+            </RadioGroup>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/ai_model_label"
+                android:textColor="#B8C4FF"
+                android:textSize="17sp" />
+            <EditText
+                android:id="@+id/etAiModel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/ai_model_hint"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#7C86B8"
+                android:textSize="17sp"
+                android:fontFamily="monospace"
+                android:inputType="text|textNoSuggestions"
+                android:singleLine="true"
+                android:textDirection="ltr" />
+
+            <Button
+                android:id="@+id/btnAiCreate"
+                style="@style/LevelButton"
+                android:layout_width="match_parent"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/btn_purple"
+                android:text="@string/ai_create" />
+
+            <LinearLayout
+                android:id="@+id/aiProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:indeterminate="true" />
+
+                <TextView
+                    android:id="@+id/tvAiStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:textColor="#FFE36E"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnAiBack"
+                style="@style/LevelButton"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/btn_easy"
+                android:text="@string/options_back" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/gameButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/btnPause"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_round"
+            android:contentDescription="@string/pause"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_pause" />
+
+        <ImageButton
+            android:id="@+id/btnExit"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/bg_round"
+            android:contentDescription="@string/exit_game"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_exit" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pausePanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D90A0D1C"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/ivPauseTitle"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/bg_round"
+            android:contentDescription="@null"
+            android:padding="26dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_pause" />
+
+        <TextView
+            android:id="@+id/tvPauseTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center"
+            android:shadowColor="#FFB000"
+            android:shadowRadius="14"
+            android:text="@string/paused"
+            android:textColor="#FFE36E"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnResume"
+            style="@style/LevelButton"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/btn_easy"
+            android:drawableStart="@drawable/ic_play"
+            android:paddingStart="28dp"
+            android:paddingEnd="28dp"
+            android:text="@string/resume" />
+
+        <Button
+            android:id="@+id/btnPauseExit"
+            style="@style/LevelButton"
+            android:background="@drawable/btn_hard"
+            android:drawableStart="@drawable/ic_exit"
+            android:paddingStart="28dp"
+            android:paddingEnd="28dp"
+            android:text="@string/exit_game" />
+    </LinearLayout>
+</FrameLayout>

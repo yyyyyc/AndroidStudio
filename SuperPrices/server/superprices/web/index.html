@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>השוואת מחירים</title>
+<style>
+  :root { --green: #2e7d32; --orange: #ef6c00; --gray: #6b6b6b; --line: #e4e4e4; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, "Segoe UI", Arial, sans-serif; color: #1d1d1d; background: #fafafa; }
+  header { background: var(--green); color: #fff; padding: 14px 20px; }
+  header h1 { margin: 0; font-size: 20px; }
+  header small { opacity: .85; }
+  main { max-width: 900px; margin: 0 auto; padding: 16px; }
+  .bar { display: flex; gap: 8px; flex-wrap: wrap; }
+  input, select, button { font: inherit; padding: 9px 12px; border: 1px solid #c8c8c8; border-radius: 8px; background: #fff; }
+  input[type=search] { flex: 1; min-width: 220px; }
+  button { background: var(--green); color: #fff; border: none; cursor: pointer; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; margin-top: 14px; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-top: 1px solid var(--line); }
+  .row:first-child { border-top: none; }
+  .row.click { cursor: pointer; }
+  .row.click:hover { background: #f3f8f3; }
+  .grow { flex: 1; min-width: 0; }
+  .sub { color: var(--gray); font-size: 13px; }
+  .price { font-weight: 700; white-space: nowrap; direction: ltr; }
+  .best { color: var(--green); }
+  .diff { color: var(--orange); }
+  h2 { font-size: 18px; margin: 18px 0 6px; color: var(--green); }
+  .empty { color: var(--gray); padding: 24px; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>השוואת מחירים בסופרמרקטים</h1>
+  <small id="status">טוען…</small>
+</header>
+<main>
+  <div class="bar">
+    <input id="q" type="search" placeholder="שם מוצר או ברקוד" autofocus>
+    <select id="chain"><option value="">כל הרשתות</option></select>
+    <input id="city" placeholder="עיר (לא חובה)" style="width:150px">
+    <button id="go">חפש</button>
+  </div>
+  <div id="out"></div>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const money = (v) => "₪" + Number(v).toFixed(2);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const date = (s) => s && s.length >= 10 ? `${s.slice(8, 10)}/${s.slice(5, 7)}/${s.slice(2, 4)}` : "";
+const chains = {};
+
+async function api(path) {
+  const r = await fetch(path);
+  const body = await r.json();
+  if (!r.ok) throw new Error(body.error || r.status);
+  return body;
+}
+
+/** Store filter from the chain and city boxes, as "chain/id,..." (empty = all stores). */
+async function storeKeys() {
+  const chain = $("chain").value, city = $("city").value.trim();
+  if (!chain && !city) return "";
+  const stores = await api(`/api/stores?chain=${encodeURIComponent(chain)}&city=${encodeURIComponent(city)}`);
+  return stores.map((s) => `${s.chain}/${s.store_id}`).join(",") || "none/0";
+}
+
+async function search() {
+  const q = $("q").value.trim();
+  if (!q) return;
+  $("out").innerHTML = '<div class="empty">מחפש…</div>';
+  try {
+    const stores = await storeKeys();
+    const hits = await api(`/api/search?q=${encodeURIComponent(q)}&stores=${stores}`);
+    if (!hits.length) { $("out").innerHTML = '<div class="empty">לא נמצאו מוצרים</div>'; return; }
+    $("out").innerHTML = '<div class="card">' + hits.map((h) => `
+      <div class="row click" data-code="${esc(h.code)}">
+        <div class="grow"><div>${esc(h.name)}</div>
+          <div class="sub">${esc(h.manufacturer)} · ב-${h.stores} חנויות · ${esc(h.code)}</div></div>
+        <div class="price best">${money(h.min_price)}</div>
+        ${h.max_price > h.min_price ? `<div class="price sub">עד ${money(h.max_price)}</div>` : ""}
+      </div>`).join("") + "</div>";
+    document.querySelectorAll("[data-code]").forEach((el) => el.onclick = () => product(el.dataset.code, stores));
+  } catch (e) {
+    $("out").innerHTML = `<div class="empty">שגיאה: ${esc(e.message)}</div>`;
+  }
+}
+
+async function product(code, stores) {
+  const p = await api(`/api/products/${encodeURIComponent(code)}?stores=${stores}`);
+  const min = p.prices[0].price, max = p.prices[p.prices.length - 1].price;
+  let html = `<h2>${esc(p.name)}</h2><div class="sub">${esc(p.manufacturer)} · ברקוד ${esc(p.code)}</div>`;
+  if (max > min) html += `<div class="diff">הפרש בין הזול ליקר: ${money(max - min)} (${Math.round((max - min) / max * 100)}%)</div>`;
+  html += `<h2>מחירים ב-${p.prices.length} חנויות</h2><div class="card">` + p.prices.map((s) => `
+    <div class="row"><div class="grow"><div>${esc(chains[s.chain] || s.chain)} · ${esc(s.name)}</div>
+      <div class="sub">${esc([s.city, s.unit_price ? money(s.unit_price) + " ל-" + s.unit_measure : "", s.updated ? "עודכן " + date(s.updated) : ""].filter(Boolean).join(" · "))}</div></div>
+      <div class="price ${s.price <= min ? "best" : ""}">${money(s.price)}</div></div>`).join("") + "</div>";
+  if (p.promos.length) {
+    html += `<h2>מבצעים</h2><div class="card">` + p.promos.map((m) => `
+      <div class="row"><div class="grow"><div>${esc(m.description)}</div>
+        <div class="sub">${esc(chains[m.chain] || m.chain)} סניף ${esc(m.store_id)} · עד ${date(m.end_at)}${m.discounted_price ? " · " + (m.min_qty > 1 ? m.min_qty + " ב-" : "") + money(m.discounted_price) : ""}</div></div></div>`).join("") + "</div>";
+  }
+  html += `<p><a href="#" id="back">→ חזרה לתוצאות</a></p>`;
+  $("out").innerHTML = html;
+  $("back").onclick = (e) => { e.preventDefault(); search(); };
+}
+
+async function init() {
+  const [list, st] = await Promise.all([api("/api/chains"), api("/api/status")]);
+  for (const c of list) {
+    chains[c.key] = c.title;
+    $("chain").insertAdjacentHTML("beforeend", `<option value="${esc(c.key)}">${esc(c.title)} (${c.stores})</option>`);
+  }
+  $("status").textContent = `${st.stores_with_prices} חנויות עם מחירים · ${st.items.toLocaleString("he")} מחירים · ` +
+    (st.running ? `מתעדכן: ${st.progress}` : st.last_run ? `עודכן ${st.last_run.replace("T", " ").slice(0, 16)}` : "טרם עודכן");
+}
+
+$("go").onclick = search;
+$("q").addEventListener("keydown", (e) => e.key === "Enter" && search());
+init().catch((e) => $("status").textContent = "השרת לא זמין: " + e.message);
+</script>
+</body>
+</html>

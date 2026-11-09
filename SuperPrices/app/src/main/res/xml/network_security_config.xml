@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Plain http stays allowed for a SuperPrices server on the home network. -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!--
+      The shared price portal (Rami Levy, Yohananof, Osher Ad...) chains to "SSL.com TLS RSA Root
+      CA 2022", which older Android versions don't ship. This adds that one root, exported from the
+      Windows trusted store (SHA-1 EC:2C:83:40:72:AF:26:95:10:FF:0E:F2:03:EE:31:70:F6:78:9D:CA),
+      for this domain only. Certificates are still fully verified.
+    -->
+    <domain-config>
+        <domain includeSubdomains="true">publishedprices.co.il</domain>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="@raw/sslcom_tls_rsa_root_2022" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config>

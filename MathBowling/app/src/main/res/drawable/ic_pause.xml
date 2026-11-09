@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pause: two rounded bars -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M7,4.5h2.5a1.5,1.5 0,0 1,1.5 1.5v12a1.5,1.5 0,0 1,-1.5 1.5h-2.5a1.5,1.5 0,0 1,-1.5 -1.5v-12a1.5,1.5 0,0 1,1.5 -1.5z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M14.5,4.5h2.5a1.5,1.5 0,0 1,1.5 1.5v12a1.5,1.5 0,0 1,-1.5 1.5h-2.5a1.5,1.5 0,0 1,-1.5 -1.5v-12a1.5,1.5 0,0 1,1.5 -1.5z" />
+</vector>

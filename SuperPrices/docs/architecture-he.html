@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>השוואת מחירים – איך זה עובד</title>
+<style>
+  @page { size: A4; margin: 14mm 14mm 14mm 14mm; }
+  :root { --green: #2e7d32; --green-soft: #e8f5e9; --blue: #1565c0; --blue-soft: #e3f0fc; --orange: #ef6c00; --orange-soft: #fff3e6; --ink: #1d1d1d; --gray: #5f5f5f; --line: #d6d6d6; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); font-size: 10pt; line-height: 1.5; background: #fff; }
+  header { border-bottom: 3px solid var(--green); padding-bottom: 8px; margin-bottom: 12px; }
+  h1 { margin: 0; font-size: 21pt; color: var(--green); }
+  .subtitle { color: var(--gray); font-size: 11pt; }
+  h2 { font-size: 13.5pt; color: var(--green); margin: 16px 0 6px; padding-bottom: 2px; border-bottom: 1px solid var(--line); break-after: avoid; }
+  h3 { font-size: 11pt; margin: 10px 0 3px; break-after: avoid; }
+  p { margin: 4px 0 7px; }
+  ul, ol { margin: 3px 0 7px; padding-inline-start: 20px; }
+  li { margin: 2px 0; }
+  .lead { font-size: 11pt; background: var(--green-soft); border-radius: 8px; padding: 9px 13px; }
+  figure { margin: 8px 0 12px; break-inside: avoid; text-align: center; }
+  figcaption { color: var(--gray); font-size: 9pt; margin-top: 2px; }
+  svg text { font-family: "Segoe UI", Arial, sans-serif; }
+  table { width: 100%; border-collapse: collapse; margin: 5px 0 9px; font-size: 9.5pt; break-inside: avoid; }
+  tr { break-inside: avoid; }
+  th, td { border: 1px solid var(--line); padding: 4px 7px; text-align: right; vertical-align: top; }
+  th { background: #f4f4f4; }
+  .ltr { direction: ltr; unicode-bidi: isolate; font-family: Consolas, "Courier New", monospace; font-size: 9pt; }
+  .steps { counter-reset: s; list-style: none; padding: 0; margin: 6px 0 10px; }
+  .steps li { counter-increment: s; position: relative; padding: 5px 38px 5px 10px; margin: 4px 0; border: 1px solid var(--line); border-radius: 6px; break-inside: avoid; }
+  .steps li::before { content: counter(s); position: absolute; right: 8px; top: 5px; width: 21px; height: 21px; border-radius: 50%; background: var(--green); color: #fff; font-weight: 700; text-align: center; line-height: 21px; font-size: 9.5pt; }
+  .server .steps li::before { background: var(--blue); }
+  .note { border-inline-start: 4px solid var(--orange); background: var(--orange-soft); padding: 6px 12px; border-radius: 4px; break-inside: avoid; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .card { border: 1px solid var(--line); border-radius: 8px; padding: 6px 11px; break-inside: avoid; }
+  .card h3 { margin-top: 2px; color: var(--green); }
+  .pb { break-before: page; }
+  footer { margin-top: 14px; color: var(--gray); font-size: 8.5pt; border-top: 1px solid var(--line); padding-top: 5px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>השוואת מחירים: איך זה עובד</h1>
+  <div class="subtitle">הסבר מפורט על האפליקציה ועל שרת המחירים, עם תרשימים · נובמבר 2026</div>
+</header>
+
+<p class="lead">
+  המערכת בנויה משני חלקים. <b>האפליקציה</b> רצה בטלפון: היא מורידה את מחירי הסניפים שבחרתם, שומרת אותם במאגר מקומי,
+  ומשווה ביניהם. <b>השרת</b> הוא רכיב אופציונלי שרץ על מחשב: הוא מוריד מראש את הקבצים של הרשתות ומגיש אותם
+  לאפליקציה מהר, ובנוסף מציע חיפוש והשוואה דרך ממשק API ודף אינטרנט.
+  שני החלקים קוראים את אותם קבצים, אותם הרשתות חייבות לפרסם לפי חוק המזון (שקיפות מחירים, 2014).
+</p>
+
+<h2>1. מקור הנתונים: קובצי השקיפות של הרשתות</h2>
+<p>כל רשת עם 3 סניפים ומעלה מפרסמת כל יום קובצי XML דחוסים מכמה סוגים. המערכת קוראת כרגע 19 רשתות, כ-1,585 סניפים:</p>
+<table>
+  <tr><th style="width:22%">סוג קובץ</th><th>מה יש בו</th><th style="width:26%">בשימוש</th></tr>
+  <tr><td><b>PriceFull</b></td><td>כל המוצרים בסניף: ברקוד, שם, יצרן, מחיר, מחיר ליחידת מידה, תאריך עדכון המחיר</td><td>כן, פעם ביום לכל סניף</td></tr>
+  <tr><td><b>PromoFull</b></td><td>כל המבצעים הפעילים בסניף: תיאור, תאריכים, כמות מינימלית, מחיר מבצע, מועדון, ורשימת הברקודים שבמבצע</td><td>כן, פעם ביום לכל סניף</td></tr>
+  <tr><td><b>Stores</b></td><td>רשימת הסניפים של הרשת: מספר, שם, כתובת, וסמל יישוב (קוד של הלמ"ס, למשל 5000 = תל אביב)</td><td>כן, לבחירת סניפים</td></tr>
+  <tr><td>Price / Promo</td><td>עדכונים חלקיים במהלך היום</td><td>לא; מספיק הקובץ המלא היומי</td></tr>
+</table>
+<p>
+  שם הקובץ מקודד את התוכן, למשל <span class="ltr">PriceFull7290027600007-001-001-20261106-043100</span>:
+  סוג הקובץ, מספר הרשת (שופרסל), תת-רשת, מספר הסניף, ותאריך ושעת הפרסום.
+  לפי השם המערכת יודעת לאיזה סניף שייך כל קובץ ואם הוא חדש מזה שכבר נטען.
+  יש רשתות שחורגות מהתבנית: קשת טעמים משמיטה את התת-רשת, וחצי חינם קוראת לרשימת הסניפים StoresFull. המערכת מטפלת בשתיהן.
+</p>
+<h3>איפה כל רשת מפרסמת, ואיך המערכת מוצאת את הקבצים</h3>
+<table style="break-inside:auto">
+  <tr><th style="width:21%">אתר</th><th style="width:33%">רשתות (מספר סניפים)</th><th>איך זה עובד</th></tr>
+  <tr><td><b>האתר המשותף</b><br><span class="ltr">url.publishedprices.co.il</span></td>
+      <td>רמי לוי (99), דור אלון (157), פרש מרקט (73), טיב טעם (54), יוחננוף (51), קשת טעמים (28), אושר עד (24), סאלח דבאח (12), סטופ מרקט (11), פוליצר (8)</td>
+      <td>מתחברים עם שם המשתמש הציבורי של הרשת (למשל <span class="ltr">RamiLevi</span>, בלי סיסמה), מקבלים קוד אבטחה (csrf), ומבקשים את רשימת כל הקבצים בפורמט JSON.
+        ההורדה נעשית באותו חיבור; אם החיבור פג, המערכת מתחברת מחדש.</td></tr>
+  <tr><td><b>binaprojects</b></td><td>קינג סטור (48), מעיין אלפיים (38), זול ובגדול (35), שוק העיר (26)</td>
+      <td>רשימת JSON של 1,000 הקבצים האחרונים. לכל קובץ יש עמוד שמחזיר את הכתובת האמיתית שלו, וממנה מורידים.</td></tr>
+  <tr><td><b>שופרסל</b></td><td>שופרסל (417)</td>
+      <td>טבלת קבצים מסוננת לפי סוג וסניף, 20 לעמוד, עם קישורים חתומים לאחסון בענן. איטי מאוד: כ-50 שניות לעמוד ולפעמים שגיאה 502, ולכן יש ניסיונות חוזרים וזמני המתנה ארוכים.</td></tr>
+  <tr><td><b>סופר-פארם</b></td><td>סופר-פארם (307)</td>
+      <td>טבלה שמסננים לפי סוג קובץ ותאריך, 20 שורות לעמוד; המערכת עוברת על כל העמודים של היום.</td></tr>
+  <tr><td><b>קרפור</b> (לשעבר יינות ביתן)</td><td>קרפור (147)</td>
+      <td>עמוד לכל יום עם כל הקבצים של אותו יום. מוקדם בבוקר, אם הקובץ של היום עוד לא פורסם, נלקח הקובץ של אתמול.</td></tr>
+  <tr><td><b>וולט</b></td><td>וולט מרקט (37)</td><td>גם כאן עמוד לכל יום, עם קישורי הורדה ישירים.</td></tr>
+  <tr><td><b>חצי חינם</b></td><td>חצי חינם (13)</td><td>עמודים של 50 קבצים לכל סוג (מחירים, מבצעים, סניפים), מהחדש לישן.</td></tr>
+</table>
+
+<h2>2. התמונה הכוללת</h2>
+<figure>
+<svg viewBox="0 0 700 515" width="100%" style="max-width:690px" xmlns="http://www.w3.org/2000/svg" direction="rtl">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+    </marker>
+    <marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/>
+    </marker>
+    <marker id="arO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ef6c00"/>
+    </marker>
+  </defs>
+
+  <!-- Chain portals -->
+  <rect x="140" y="8" width="420" height="86" rx="10" fill="#fafafa" stroke="#999" stroke-dasharray="4 3"/>
+  <text x="350" y="26" text-anchor="middle" font-size="12" fill="#555" font-weight="700">אתרי השקיפות של 19 הרשתות (אינטרנט)</text>
+  <rect x="152" y="36" width="122" height="46" rx="7" fill="#fff" stroke="#777"/>
+  <text x="213" y="56" text-anchor="middle" font-size="12" font-weight="700">binaprojects</text>
+  <text x="213" y="73" text-anchor="middle" font-size="10" fill="#666">4 רשתות · רשימת JSON</text>
+  <rect x="289" y="36" width="122" height="46" rx="7" fill="#fff" stroke="#777"/>
+  <text x="350" y="56" text-anchor="middle" font-size="12" font-weight="700">האתר המשותף</text>
+  <text x="350" y="73" text-anchor="middle" font-size="10" fill="#666">10 רשתות · התחברות</text>
+  <rect x="426" y="36" width="122" height="46" rx="7" fill="#fff" stroke="#777"/>
+  <text x="487" y="56" text-anchor="middle" font-size="12" font-weight="700">אתרי הרשתות</text>
+  <text x="487" y="73" text-anchor="middle" font-size="10" fill="#666">שופרסל, קרפור ועוד 3</text>
+
+  <!-- Phone (right) -->
+  <rect x="385" y="140" width="305" height="300" rx="14" fill="#f3faf3" stroke="#2e7d32" stroke-width="2"/>
+  <text x="537" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#2e7d32">האפליקציה (טלפון אנדרואיד)</text>
+  <rect x="400" y="172" width="275" height="46" rx="7" fill="#fff" stroke="#2e7d32"/>
+  <text x="537" y="191" text-anchor="middle" font-size="12" font-weight="700">מקורות הורדה</text>
+  <text x="537" y="208" text-anchor="middle" font-size="10" fill="#555">מהשרת אם הוגדר, אחרת ישירות מהרשת</text>
+  <rect x="400" y="234" width="275" height="40" rx="7" fill="#fff" stroke="#2e7d32"/>
+  <text x="537" y="251" text-anchor="middle" font-size="12" font-weight="700">מפענח XML בזרימה</text>
+  <text x="537" y="266" text-anchor="middle" font-size="10" fill="#555">פריסה, זיהוי קידוד, קריאת רשומות</text>
+  <rect x="400" y="290" width="275" height="40" rx="7" fill="#fff" stroke="#2e7d32"/>
+  <text x="537" y="307" text-anchor="middle" font-size="12" font-weight="700">מאגר SQLite בטלפון</text>
+  <text x="537" y="322" text-anchor="middle" font-size="10" fill="#555">מחירים · מבצעים · היסטוריה · רשימה · מעקב</text>
+  <rect x="545" y="348" width="130" height="78" rx="7" fill="#fff" stroke="#2e7d32"/>
+  <text x="610" y="372" text-anchor="middle" font-size="12" font-weight="700">5 מסכים</text>
+  <text x="610" y="389" text-anchor="middle" font-size="10" fill="#555">חיפוש · רשימה · מבצעים</text>
+  <text x="610" y="403" text-anchor="middle" font-size="10" fill="#555">מעקב · חנויות</text>
+  <text x="610" y="417" text-anchor="middle" font-size="10" fill="#555">+ סורק ברקוד</text>
+  <rect x="400" y="348" width="130" height="78" rx="7" fill="#fff" stroke="#2e7d32"/>
+  <text x="465" y="372" text-anchor="middle" font-size="12" font-weight="700">עדכון יומי</text>
+  <text x="465" y="389" text-anchor="middle" font-size="10" fill="#555">WorkManager ברקע</text>
+  <text x="465" y="403" text-anchor="middle" font-size="10" fill="#555">בדיקת ירידות מחיר</text>
+  <text x="465" y="417" text-anchor="middle" font-size="10" fill="#555">← התראה בטלפון</text>
+  <line x1="537" y1="218" x2="537" y2="232" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/>
+  <line x1="537" y1="274" x2="537" y2="288" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/>
+  <line x1="610" y1="330" x2="610" y2="346" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/>
+  <line x1="465" y1="346" x2="465" y2="332" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <!-- Server (left) -->
+  <rect x="10" y="140" width="305" height="300" rx="14" fill="#f2f7fd" stroke="#1565c0" stroke-width="2"/>
+  <text x="162" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#1565c0">שרת המחירים (Python, אופציונלי)</text>
+  <rect x="25" y="172" width="275" height="46" rx="7" fill="#fff" stroke="#1565c0"/>
+  <text x="162" y="191" text-anchor="middle" font-size="12" font-weight="700">אוסף יומי (06:00)</text>
+  <text x="162" y="208" text-anchor="middle" font-size="10" fill="#555">רשימות קבצים · הורדה מקבילית · פענוח</text>
+  <rect x="25" y="248" width="128" height="58" rx="7" fill="#fff" stroke="#1565c0"/>
+  <text x="89" y="270" text-anchor="middle" font-size="12" font-weight="700">מראת קבצים</text>
+  <text x="89" y="287" text-anchor="middle" font-size="10" fill="#555">הקבצים המקוריים</text>
+  <text x="89" y="300" text-anchor="middle" font-size="10" fill="#555">של כל סניף</text>
+  <rect x="172" y="248" width="128" height="58" rx="7" fill="#fff" stroke="#1565c0"/>
+  <text x="236" y="270" text-anchor="middle" font-size="12" font-weight="700">מאגר SQLite</text>
+  <text x="236" y="287" text-anchor="middle" font-size="10" fill="#555">מחירים ומבצעים</text>
+  <text x="236" y="300" text-anchor="middle" font-size="10" fill="#555">של כל הסניפים</text>
+  <rect x="25" y="340" width="275" height="56" rx="7" fill="#fff" stroke="#1565c0"/>
+  <text x="162" y="362" text-anchor="middle" font-size="12" font-weight="700">שרת HTTP</text>
+  <text x="162" y="380" text-anchor="middle" font-size="10" fill="#555">API בפורמט JSON · קבצי המראה · דף אינטרנט</text>
+  <text x="162" y="428" text-anchor="middle" font-size="10" fill="#1565c0">פורט 8080 · תיקיית data</text>
+  <line x1="120" y1="218" x2="95" y2="246" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/>
+  <line x1="205" y1="218" x2="230" y2="246" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/>
+  <line x1="89" y1="306" x2="110" y2="338" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/>
+  <line x1="236" y1="306" x2="215" y2="338" stroke="#555" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <!-- Browser -->
+  <rect x="62" y="470" width="200" height="38" rx="7" fill="#fff" stroke="#777"/>
+  <text x="162" y="494" text-anchor="middle" font-size="12">דפדפן / תוכנה אחרת</text>
+  <line x1="162" y1="468" x2="162" y2="398" stroke="#555" stroke-width="1.6" marker-end="url(#ar)" marker-start="url(#ar)"/>
+  <text x="172" y="452" text-anchor="end" font-size="10" fill="#555">חיפוש והשוואה</text>
+
+  <!-- Portal -> server -->
+  <path d="M 250 94 C 220 110, 175 115, 162 138" fill="none" stroke="#1565c0" stroke-width="2" marker-end="url(#arB)"/>
+  <text x="140" y="118" text-anchor="middle" font-size="10" fill="#1565c0">כל בוקר: כל הסניפים</text>
+  <!-- Portal -> phone (direct) -->
+  <path d="M 450 94 C 480 110, 525 115, 537 138" fill="none" stroke="#ef6c00" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arO)"/>
+  <text x="590" y="118" text-anchor="middle" font-size="10" fill="#ef6c00">ישירות (בלי שרת / גיבוי)</text>
+  <!-- Server -> phone (mirror) -->
+  <path d="M 300 368 C 345 368, 345 195, 398 195" fill="none" stroke="#1565c0" stroke-width="2.4" marker-end="url(#arB)"/>
+  <rect x="300" y="270" width="88" height="32" rx="5" fill="#fff" stroke="#1565c0"/>
+  <text x="344" y="284" text-anchor="middle" font-size="10" fill="#1565c0">קבצים מהמראה</text>
+  <text x="344" y="297" text-anchor="middle" font-size="10" fill="#1565c0">מהיר: שניות</text>
+</svg>
+<figcaption>תרשים 1: רכיבי המערכת וזרימת הנתונים. החץ הכחול הוא המסלול המהיר דרך השרת; החץ הכתום המקווקו הוא הורדה ישירה מהרשת.</figcaption>
+</figure>
+
+<p>
+  <b>בלי שרת</b>, הטלפון מוריד כל קובץ ישירות מאתר הרשת. זה עובד, אבל בשופרסל עדכון של סניף אחד יכול לקחת כמה דקות.
+  <b>עם שרת</b>, השרת כבר הוריד את הקבצים בבוקר, והטלפון מוריד אותם ממנו תוך שניות (בבדיקה: 18 שניות לסניף שופרסל).
+  אם השרת לא מכיר סניף מסוים או לא זמין, האפליקציה חוזרת לבד להורדה ישירה מהרשת.
+</p>
+
+<h2>3. האפליקציה: מה קורה בפנים</h2>
+
+<h3>בחירת סניפים</h3>
+<p>
+  בפתיחה הראשונה האפליקציה מורידה את קובצי ה-Stores של כל 19 הרשתות, כ-1,585 סניפים.
+  כל רשת נטענת בנפרד ובמקביל, כך שהרשתות המהירות מופיעות תוך שניות גם כששופרסל עדיין נטענת.
+  יוחננוף, פוליצר, סאלח דבאח ורוב קשת טעמים לא מציינות עיר, ולכן הסניפים שלהן מופיעים בלי שם עיר.
+  סמל היישוב מתורגם לשם עיר מתוך טבלת היישובים של הלמ"ס שמצורפת לאפליקציה (1,316 יישובים).
+  בוחרים עד 12 סניפים. אפשר גם למיין לפי מרחק ("חנויות קרובות אליי"): האפליקציה מקבלת מיקום מהטלפון,
+  מאתרת כל עיר פעם אחת בשירות איתור הכתובות של הטלפון, ואז מאתרת את כתובות הסניפים בערים הקרובות.
+  כל התוצאות נשמרות, כך שהחיפוש הבא מהיר.
+</p>
+
+<h3>עדכון המחירים, שלב אחר שלב</h3>
+<p>העדכון רץ ברקע (WorkManager) פעם ביום, מיד אחרי שבוחרים סניף חדש, או בלחיצה על כפתור הרענון:</p>
+<ol class="steps">
+  <li><b>איתור הקובץ החדש:</b> לכל סניף שנבחר, האפליקציה מבקשת את רשימת הקבצים (מהשרת או מאתר הרשת; באתר המשותף קודם מתחברים) ומוצאת את קובץ ה-PriceFull וה-PromoFull העדכניים לפי התאריך שבשם הקובץ.</li>
+  <li><b>דילוג על מה שכבר יש:</b> אם התאריך זהה לקובץ שכבר נטען, הסניף מדולג. כך עדכון שני באותו יום כמעט לא מוריד כלום.</li>
+  <li><b>הורדה ופענוח בזרימה:</b> הקובץ נקרא תוך כדי הורדה, בלי לשמור אותו: פריסת gzip או zip, זיהוי הקידוד (UTF-8, או UTF-16 כמו ברשימת הסניפים של קרפור), וקריאת הרשומות אחת אחת. כך גם קובץ של 15,000 מוצרים לא תופס זיכרון רב.</li>
+  <li><b>החלפה במאגר:</b> המחירים הישנים של הסניף מוחלפים בחדשים בפעולה אחת (טרנזקציה). אם ההורדה נקטעת באמצע, נשארים המחירים הקודמים.</li>
+  <li><b>רישום היסטוריה:</b> לפני ההחלפה האפליקציה משווה כל מחיר חדש לישן. כשמחיר השתנה, נשמרים המחיר הקודם והחדש בטבלת ההיסטוריה, וכך נבנה גרף המחירים בדף המוצר.</li>
+  <li><b>מבצעים:</b> אותו תהליך לקובץ המבצעים: כל מבצע נשמר עם תאריכיו ורשימת הברקודים שבו.</li>
+  <li><b>בדיקת מעקב:</b> בסוף העדכון נבדק כל מוצר במעקב. אם המחיר הזול ביותר ירד, או הגיע למחיר היעד, נשלחת התראה, ולחיצה עליה פותחת את דף המוצר.</li>
+</ol>
+<p>עד שלושה סניפים מתעדכנים במקביל, כי רוב הזמן הולך על המתנה לאתר הרשת ולא על ההורדה עצמה.</p>
+
+<h3>המאגר בטלפון</h3>
+<table>
+  <tr><th style="width:22%">טבלה</th><th>מה נשמר</th></tr>
+  <tr><td>stores / my_stores</td><td>כל הסניפים, והסניפים שבחרתם עם תאריך הקובץ האחרון שנטען</td></tr>
+  <tr><td>items</td><td>המחיר הנוכחי של כל מוצר בכל סניף שנבחר (ברקוד, שם, יצרן, מחיר, מחיר ליחידה)</td></tr>
+  <tr><td>history</td><td>שינויי מחיר לאורך זמן, לכל מוצר וסניף</td></tr>
+  <tr><td>promos / promo_items</td><td>המבצעים, והברקודים שכל מבצע חל עליהם</td></tr>
+  <tr><td>shopping_list / watch</td><td>רשימת הקניות שלכם, והמוצרים במעקב עם מחיר היעד והמחיר האחרון שנראה</td></tr>
+  <tr><td>geo</td><td>מיקומי ערים וסניפים שכבר אותרו</td></tr>
+</table>
+
+<h3>המסכים</h3>
+<ul>
+  <li><b>חיפוש:</b> מחפש בכל המוצרים של הסניפים שלכם. ספרות בלבד נחשבות ברקוד (גם בלי אפסים מובילים); אחרת כל מילה צריכה להופיע בשם או ביצרן. התוצאות מקובצות לפי ברקוד, עם המחיר הזול ומספר הסניפים.</li>
+  <li><b>סורק:</b> המצלמה מזהה ברקוד (EAN-13, EAN-8, UPC, Code 128) בעזרת מודל ML Kit שמובנה באפליקציה, ופותחת את המוצר או מוסיפה אותו לרשימה.</li>
+  <li><b>דף מוצר:</b> מחיר בכל סניף מהזול ליקר, מחיר ליחידת מידה, מבצעים פעילים, וגרף היסטוריה עם קו לכל סניף.</li>
+  <li><b>מבצעים:</b> מבצעים שעוד לא הסתיימו, עם חיפוש וסינון לפי סניף, ורשימת המוצרים בכל מבצע.</li>
+  <li><b>מעקב:</b> המוצרים במעקב, המחיר הנוכחי והיעד.</li>
+</ul>
+
+<h3>איך מחושבת רשימת הקניות</h3>
+<p>לכל סניף מחושב סכום של מחיר × כמות לכל מוצר שנמכר בו. הסניפים מדורגים קודם לפי מספר המוצרים החסרים, ורק אחר כך לפי הסכום,
+  כדי שסניף שנראה זול רק כי חסרים בו חצי מהמוצרים לא יופיע ראשון. בנוסף מחושבת "קנייה מפוצלת": כל מוצר בסניף שבו הוא הכי זול.</p>
+<table>
+  <tr><th>מוצר (כמות)</th><th>סניף א</th><th>סניף ב</th><th>סניף ג</th></tr>
+  <tr><td>חלב (2)</td><td>₪6.00</td><td>₪5.00</td><td><b>₪1.00</b></td></tr>
+  <tr><td>לחם (1)</td><td><b>₪10.00</b></td><td>₪12.00</td><td>חסר</td></tr>
+  <tr><td>מוצר נדיר (1)</td><td>חסר</td><td><b>₪30.00</b></td><td>חסר</td></tr>
+  <tr><th>סכום ודירוג</th><td>₪22 · חסר 1 · מקום 2</td><td>₪52 · הכול · <b>מקום 1</b></td><td>₪2 · חסרים 2 · מקום 3</td></tr>
+</table>
+<p>בדוגמה, הקנייה המפוצלת (המודגשים) עולה ₪42 בשלושה סניפים. הסכומים לפי המחיר הרגיל; מוצר שיש עליו מבצע מסומן ב-★.</p>
+
+<section class="server">
+<h2>4. השרת: מה קורה בפנים</h2>
+<p>
+  השרת כתוב ב-Python ומשתמש רק בספרייה הסטנדרטית (בלי התקנות). הוא רץ כתהליך אחד עם שלושה חלקים:
+  אוסף שרץ לפי לוח זמנים, מאגר SQLite, ושרת HTTP שעונה לבקשות. ההגדרות קובעות אילו סניפים לשמור:
+  כולם, רשת שלמה, או רשימת סניפים.
+</p>
+
+<h3>האיסוף היומי, שלב אחר שלב</h3>
+<ol class="steps">
+  <li><b>תזמון:</b> איסוף אחד מיד כשהשרת עולה, ואחר כך כל יום ב-06:00 שעון ישראל, אחרי שהרשתות מפרסמות את הקבצים המלאים (בערך 04:00–05:00). אף פעם לא רצים שני איסופים במקביל.</li>
+  <li><b>רשימת הסניפים:</b> הורדת קובץ ה-Stores של כל רשת ועדכון טבלת הסניפים.</li>
+  <li><b>רשימת הקבצים:</b> כשנשמרים כל הסניפים של רשת, השרת קורא את רשימת הקבצים המלאה שלה (בשופרסל 22 עמודים לכל סוג קובץ; באתר המשותף ובאתר binaprojects רשימה אחת) ומוצא את הקובץ העדכני של כל סניף. כשנבחרו רק כמה סניפים, הוא שואל על כל סניף בנפרד, וזה מהיר יותר.</li>
+  <li><b>הורדה מקבילית:</b> ארבע הורדות בו-זמנית. קובץ שכבר יש לו את אותו תאריך מדולג. בכשל יש עד שלושה ניסיונות עם המתנה הולכת וגדלה.</li>
+  <li><b>שמירה כפולה:</b> הקובץ המקורי נשמר בתיקיית המראה כפי שהרשת פרסמה אותו (זה מה שהאפליקציה מורידה), והתוכן מפוענח ונטען למאגר, כולל רישום שינויי מחיר להיסטוריה.</li>
+  <li><b>סיכום:</b> מספר הסניפים שעודכנו, אילו נכשלו, ומשך האיסוף נשמרים ומוצגים ב-<span class="ltr">/api/status</span> ובראש דף האינטרנט.</li>
+</ol>
+
+<h3>מה השרת מגיש</h3>
+<table>
+  <tr><th style="width:38%">כתובת</th><th>מה מקבלים</th></tr>
+  <tr><td class="ltr">GET /api/files/{chain}/{store}</td><td>פרטי הקבצים השמורים של סניף (תאריך, גודל וקישור). כך האפליקציה יודעת אם יש קובץ חדש.</td></tr>
+  <tr><td class="ltr">GET /files/{chain}/{store}/{kind}</td><td>הקובץ עצמו, בדיוק כפי שהרשת פרסמה אותו, כך שהאפליקציה מפענחת אותו באותו קוד</td></tr>
+  <tr><td class="ltr">GET /api/search?q=…</td><td>חיפוש מוצרים לפי שם או ברקוד בכל הסניפים, עם המחיר הזול והיקר</td></tr>
+  <tr><td class="ltr">GET /api/products/{barcode}</td><td>מחיר המוצר בכל סניף, מבצעים פעילים והיסטוריית מחירים</td></tr>
+  <tr><td class="ltr">POST /api/basket</td><td>חישוב סל קניות, באותו אלגוריתם כמו באפליקציה</td></tr>
+  <tr><td class="ltr">GET /api/promos · /api/stores · /api/chains</td><td>מבצעים פעילים, רשימת סניפים, ורשתות</td></tr>
+  <tr><td class="ltr">GET /api/status</td><td>מצב השרת: כמה סניפים ומחירים יש, מתי עודכן, והאם איסוף רץ עכשיו</td></tr>
+  <tr><td class="ltr">POST /api/sync</td><td>הפעלת איסוף ידנית. מותרת רק מהמחשב עצמו, או עם סיסמת מנהל</td></tr>
+  <tr><td class="ltr">GET /</td><td>דף אינטרנט בעברית לחיפוש מוצרים והשוואת מחירים</td></tr>
+</table>
+<p>תשובות JSON גדולות נשלחות דחוסות (gzip), והשרת עונה לכמה בקשות במקביל.</p>
+</section>
+
+<h2>5. סנכרון האפליקציה דרך השרת</h2>
+<figure>
+<svg viewBox="0 0 700 250" width="100%" style="max-width:690px" xmlns="http://www.w3.org/2000/svg" direction="rtl">
+  <defs>
+    <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#444"/>
+    </marker>
+  </defs>
+  <!-- lifelines -->
+  <rect x="540" y="8" width="140" height="34" rx="7" fill="#e8f5e9" stroke="#2e7d32"/>
+  <text x="610" y="30" text-anchor="middle" font-size="12" font-weight="700">אפליקציה</text>
+  <rect x="280" y="8" width="140" height="34" rx="7" fill="#e3f0fc" stroke="#1565c0"/>
+  <text x="350" y="30" text-anchor="middle" font-size="12" font-weight="700">שרת</text>
+  <rect x="20" y="8" width="140" height="34" rx="7" fill="#fafafa" stroke="#777"/>
+  <text x="90" y="30" text-anchor="middle" font-size="12" font-weight="700">אתר הרשת</text>
+  <line x1="610" y1="42" x2="610" y2="245" stroke="#bbb" stroke-dasharray="4 3"/>
+  <line x1="350" y1="42" x2="350" y2="245" stroke="#bbb" stroke-dasharray="4 3"/>
+  <line x1="90" y1="42" x2="90" y2="245" stroke="#bbb" stroke-dasharray="4 3"/>
+
+  <line x1="350" y1="68" x2="94" y2="68" stroke="#1565c0" stroke-width="1.6" marker-end="url(#a2)"/>
+  <text x="222" y="62" text-anchor="middle" font-size="10" fill="#1565c0">06:00 · הורדת קבצים של כל הסניפים</text>
+
+  <line x1="606" y1="104" x2="354" y2="104" stroke="#444" stroke-width="1.6" marker-end="url(#a2)"/>
+  <text x="480" y="98" text-anchor="middle" font-size="10">1. יש קובץ חדש לסניף?</text>
+  <line x1="354" y1="128" x2="606" y2="128" stroke="#444" stroke-width="1.6" marker-end="url(#a2)"/>
+  <text x="480" y="122" text-anchor="middle" font-size="10">2. תאריך הקובץ וקישור</text>
+  <line x1="606" y1="156" x2="354" y2="156" stroke="#444" stroke-width="1.6" marker-end="url(#a2)"/>
+  <text x="480" y="150" text-anchor="middle" font-size="10">3. אם חדש: הורדת הקובץ</text>
+  <line x1="354" y1="180" x2="606" y2="180" stroke="#444" stroke-width="1.6" marker-end="url(#a2)"/>
+  <text x="480" y="174" text-anchor="middle" font-size="10">4. הקובץ המקורי · פענוח ושמירה בטלפון</text>
+
+  <line x1="606" y1="216" x2="94" y2="216" stroke="#ef6c00" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#a2)"/>
+  <rect x="150" y="199" width="400" height="15" fill="#fff"/>
+  <text x="350" y="210" text-anchor="middle" font-size="10" fill="#ef6c00">סניף שהשרת לא שומר, או שרת לא זמין: הורדה ישירה מהרשת</text>
+  <text x="350" y="238" text-anchor="middle" font-size="10" fill="#666">התראות, היסטוריה ורשימת הקניות נשארים בטלפון בכל מקרה</text>
+</svg>
+<figcaption>תרשים 2: עדכון סניף כשמוגדר שרת. השרת מוריד מהרשת פעם ביום; הטלפון מוריד מהשרת.</figcaption>
+</figure>
+<p>
+  הגדרת השרת נעשית בלשונית "חנויות" ← "מקור המחירים", בכתובת כמו <span class="ltr">http://192.168.1.23:8080</span>
+  (המחשב והטלפון באותה רשת Wi-Fi). בשמירה האפליקציה בודקת שהשרת עונה ומציגה כמה סניפים יש בו.
+</p>
+
+<h2>6. אמינות ומגבלות</h2>
+<div class="note">
+  <ul>
+    <li><b>אתר שופרסל:</b> המתנה של עד 150 שניות לתשובה ושלושה ניסיונות. ללא שרת, עדכון סניף שופרסל יכול לקחת כמה דקות.</li>
+    <li><b>רשתות שעוד חסרות.</b> ויקטורי, ח. כהן ומחסני השוק מפרסמות באתר (laibcatalog) שנותן קבצים רק דרך טופס רב-שלבי. האתרים של סופר יודה ומשנת יוסף לא ענו.
+      קופיקס, גוד פארם, יילו ועוד כמה כבר לא נכנסות עם שמות המשתמש הישנים שלהן באתר המשותף. כל רשת נוספת היא רכיב מקור אחד בכל צד.</li>
+    <li><b>תעודת אבטחה.</b> האתר המשותף משתמש בתעודת שורש (SSL.com TLS RSA Root CA 2022) שאין באנדרואיד 14. האפליקציה כוללת את התעודה הזו, שנלקחה ממאגר התעודות המהימנות של Windows,
+      וסומכת עליה רק עבור האתר הזה. כל החיבורים עדיין מאומתים במלואם.</li>
+    <li><b>מבצעים לא נכנסים לסכום הסל.</b> כללי המבצעים מגוונים (כמויות, מועדונים, קופונים), ולכן הם מוצגים ומסומנים אבל לא מחושבים.</li>
+    <li><b>היסטוריה מתחילה ביום ההתקנה.</b> הגרף מתמלא ככל שהמחירים משתנים בעדכונים היומיים.</li>
+    <li><b>השרת מקומי.</b> הטלפון משתמש בו רק כשהמחשב פועל ונגיש. כשהוא לא זמין, האפליקציה מורידה ישירות מהרשתות.</li>
+  </ul>
+</div>
+
+<footer>השוואת מחירים · איך זה עובד · 9 בנובמבר 2026 · קוד: <span class="ltr">C:\AndroidStudio\SuperPrices</span></footer>
+</body>
+</html>

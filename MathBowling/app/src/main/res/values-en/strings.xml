@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Math Bowling</string>
+    <string name="menu_title">Math Bowling</string>
+    <string name="menu_subtitle">Solve the riddle, tilt the phone left and right, and roll the ball into the cone with the right answer!</string>
+    <string name="choose_level">Choose a level</string>
+    <string name="level_easy">Easy</string>
+    <string name="level_medium">Medium</string>
+    <string name="level_hard">Hard</string>
+    <string name="touch_hint">Swipe up to jump · Tilt forward to speed up</string>
+    <string name="best_line">Best · Easy: %1$d · Medium: %2$d · Hard: %3$d</string>
+    <string name="score">Score: %1$d</string>
+    <string name="progress">Question %1$d of %2$d</string>
+    <string name="go">Go!</string>
+    <string name="wrong">Oops! The right answer is %1$s</string>
+    <string name="game_over">Game over!</string>
+    <string name="final_score">You got %1$d out of %2$d right</string>
+    <string name="best">Your best on this level: %1$d</string>
+    <string name="new_best">New record! 🏆</string>
+    <string name="play_again">Play again</string>
+    <string name="to_menu">Menu</string>
+    <string name="msg_perfect">Perfect! You are a champion!</string>
+    <string name="msg_great">Well done! Excellent score!</string>
+    <string name="msg_good">Very nice! Keep practicing!</string>
+    <string name="msg_try">Never mind, try again!</string>
+    <string-array name="praise">
+        <item>Well done!</item>
+        <item>Excellent!</item>
+        <item>Bullseye!</item>
+        <item>Champion!</item>
+        <item>What a throw!</item>
+        <item>Correct!</item>
+        <item>Boom!</item>
+    </string-array>
+    <string name="options">⚙ Settings</string>
+    <string name="options_title">Settings</string>
+    <string name="options_language">Game language</string>
+    <string name="lang_he">עברית</string>
+    <string name="lang_en">English</string>
+    <string name="options_speak">Read the question aloud</string>
+    <string name="options_music">Music</string>
+    <string name="options_blowout">💥 Blowout: saying the answer blows up the cones, and the ball races on to the next question</string>
+    <string name="options_speed">Ball speed</string>
+    <string name="options_tilt">Tilt sensitivity</string>
+    <string-array name="speed_names">
+        <item>Very slow</item>
+        <item>Slow</item>
+        <item>Normal</item>
+        <item>Fast</item>
+        <item>Very fast</item>
+    </string-array>
+    <string-array name="tilt_names">
+        <item>Lowest</item>
+        <item>Very low</item>
+        <item>Low</item>
+        <item>A bit low</item>
+        <item>Normal</item>
+        <item>A bit high</item>
+        <item>High</item>
+        <item>Very high</item>
+        <item>Highest</item>
+    </string-array>
+    <string name="options_controls">How to play:\n• Tilt left and right to aim\n• Tilt forward to speed up, backward to slow down\n• Swipe up or shake the phone to jump (jump too late and you fly over the cones!)\n• You can also hold a finger on the left or right side of the screen\n• With voice answers: say the answer and the ball rolls to it by itself</string>
+    <string name="options_back">Back</string>
+    <string name="tts_missing">No voice for this language is installed. You can add one in the phone\'s text-to-speech settings.</string>
+    <string name="jumped_over">The ball jumped over the cones! The right answer is %1$s</string>
+    <string name="mode_math">🔢 Math</string>
+    <string name="mode_arabic">📖 Arabic</string>
+    <string name="menu_title_arabic">Arabic Bowling</string>
+    <string name="menu_subtitle_arabic">Read the Arabic word, tilt the phone, and roll the ball into the cone with the right meaning! Tap the word to hear it.</string>
+    <string name="options_translit">Show transliteration (Arabic and Russian)</string>
+    <string name="mode_russian">🪆 Russian</string>
+    <string name="menu_title_russian">Russian Bowling</string>
+    <string name="menu_subtitle_russian">Read the Russian word, tilt the phone, and roll the ball into the cone with the right meaning! Tap the word to hear it.</string>
+    <string name="mode_ai">🤖 AI basics</string>
+    <string name="menu_title_ai">AI Bowling</string>
+    <string name="menu_subtitle_ai">Answer questions about artificial intelligence: tilt the phone, roll the ball to the right answer, and read the explanation after each throw!</string>
+    <string name="endless_switch">🛣️ Endless lane (3 lives)</string>
+    <string name="progress_endless">Question %1$d</string>
+    <string name="endless_score">You got %1$d right answers on the endless lane!</string>
+    <string name="options_voice">🎤 Voice answers (say the answer)</string>
+    <string name="voice_listening">🎤 Listening… say the answer</string>
+    <string name="voice_heard">🎤 %1$s</string>
+    <string name="voice_permission">Voice answers need permission to use the microphone</string>
+    <string name="voice_unavailable">Speech recognition is not available on this phone</string>
+    <string name="mp_button">👥 Two players (network)</string>
+    <string name="mp_title">Two-player game</string>
+    <string name="mp_explain">Both phones must be on the same Wi‑Fi network. The game uses the mode and lane the host picked in the menu, and you both get exactly the same questions. Most right answers wins; on a tie, the faster player wins.</string>
+    <string name="mp_host">Create a game</string>
+    <string name="mp_join">Join a game</string>
+    <string name="mp_ip_hint">Or type the address shown on the host\'s phone</string>
+    <string name="mp_connect">Connect</string>
+    <string name="mp_choose">Create a new game, or join a friend\'s game</string>
+    <string name="mp_waiting">Waiting for the other player…\nYour address: %1$s</string>
+    <string name="mp_searching">Looking for games on the network…</string>
+    <string name="mp_connecting">Connecting…</string>
+    <string name="mp_connected_host">Connected! 🎉\nPick a level to start (%1$s)</string>
+    <string name="mp_connected_guest">Connected! 🎉\nWaiting for the host to pick a level…</string>
+    <string name="mp_failed">Could not connect. Make sure both phones are on the same network.</string>
+    <string name="mp_disconnected">The other player disconnected</string>
+    <string name="mp_opponent">🆚 Opponent: %1$d points · question %2$d</string>
+    <string name="mp_opponent_done">🆚 Opponent finished: %1$d points</string>
+    <string name="mp_wait_result">Waiting for your opponent to finish… (now: %1$d points)</string>
+    <string name="mp_win">You win! 🏆</string>
+    <string name="mp_win_time">You win – you were faster! 🏆</string>
+    <string name="mp_lose">Your opponent won this time 💪</string>
+    <string name="mp_lose_time">Your opponent won – they were faster 💪</string>
+    <string name="mp_tie">It\'s a tie! 🤝</string>
+    <string name="mp_scores">You: %1$d · Opponent: %2$d</string>
+    <string name="mp_wait_host">Waiting for the host…</string>
+    <string name="mode_custom">📝 My questions</string>
+    <string name="menu_title_custom">My Questions</string>
+    <string name="menu_subtitle_custom">Questions from a file you wrote yourself</string>
+    <string name="custom_title">📝 My questions</string>
+    <string name="custom_load">Load file</string>
+    <string name="custom_sample">Create sample file</string>
+    <string name="custom_status">%1$d questions loaded from %2$s. Edited it? The game reads it again when you return to the menu.</string>
+    <string name="custom_status_none">No file loaded yet. Create a sample file (for example on Google Drive), edit it in any text editor – even on a computer – and load it here.</string>
+    <string name="custom_loaded">%1$d questions loaded 🎉</string>
+    <string name="custom_bad_lines">Lines that could not be understood: %1$s\nEach line needs: question | right answer | at least two wrong answers.</string>
+    <string name="custom_empty">No questions were found in the file.\nEach line should look like this:\nquestion | right answer | wrong answer | wrong answer</string>
+    <string name="custom_none">You have no questions of your own yet – load a file in Settings</string>
+    <string name="custom_read_failed">Could not read the file</string>
+    <string name="custom_sample_saved">The sample file was saved and loaded. Edit it as you like – changes are picked up when you come back to the game.</string>
+    <string name="options_shake">📳 Shake the phone to jump</string>
+    <string name="pause">Pause</string>
+    <string name="paused">Paused</string>
+    <string name="resume">Continue</string>
+    <string name="exit_game">Exit</string>
+    <string name="exit_confirm">Leave the game?</string>
+    <string name="options_fast_voice">⚡ Faster on-phone recognition (when an offline speech pack is installed)</string>
+    <string name="ai_open">🤖 Quiz on any topic or document (AI)</string>
+    <string name="ai_title">🤖 A quiz on anything</string>
+    <string name="ai_explain">Write what you want a quiz about – and ChatGPT will make it. You can also add material: a file (PDF, Word, text or a photo of a page), a link to a website, or pasted text.</string>
+    <string name="ai_key_label">OpenAI API key</string>
+    <string name="ai_key_hint">sk-…</string>
+    <string name="ai_key_note">Create a key at platform.openai.com/api-keys. It is stored only on this phone and is left out of backups. Each quiz uses a little of your OpenAI credit.</string>
+    <string name="ai_source_label">Material (optional) – if you add some, questions come only from it</string>
+    <string name="ai_pick_file">📄 Pick a file</string>
+    <string name="ai_no_file">No file picked</string>
+    <string name="ai_url_hint">or a link to a website: https://…</string>
+    <string name="ai_text_hint">or paste text here</string>
+    <string name="ai_count_label">How many questions?</string>
+    <string name="ai_lang_label">Quiz language</string>
+    <string name="ai_model_label">Model (advanced)</string>
+    <string name="ai_model_hint">gpt-5-mini</string>
+    <string name="ai_create">✨ Create the quiz</string>
+    <string name="ai_reading">Reading the source…</string>
+    <string name="ai_working">ChatGPT is writing the questions… (usually half a minute to two minutes)</string>
+    <string name="ai_cancel">Cancel</string>
+    <string name="ai_need_key">Paste an OpenAI API key first</string>
+    <string name="ai_need_source">Write what the quiz is about, or add a file, a link or text</string>
+    <string name="ai_too_short">The source has too little text to make a quiz from</string>
+    <string name="ai_err_key">The API key is not valid. Check that you copied all of it.</string>
+    <string name="ai_err_quota">OpenAI refused the request: not enough credit on the account, or too many requests. Check platform.openai.com/usage</string>
+    <string name="ai_err_api">OpenAI returned an error (%1$s):\n%2$s</string>
+    <string name="ai_err_network">No internet connection, or the server did not answer in time. Try again.</string>
+    <string name="ai_err_big">The file is too big (up to 20MB)</string>
+    <string name="ai_err_link">Could not open the link (%1$s). You can copy the text from the site and paste it here.</string>
+    <string name="ai_err_empty">No questions came back. Try another source or fewer questions.</string>
+    <string name="ai_err_docx">Could not read the Word file</string>
+    <string name="ai_err_refused">The model refused to make a quiz from this source</string>
+    <string name="ai_err_other">Something went wrong: %1$s</string>
+    <string name="ai_ready_title">Quiz ready: %1$s</string>
+    <string name="ai_ready_body">%1$d questions were made. For example:\n\n%2$s</string>
+    <string name="ai_play">▶ Play</string>
+    <string name="ai_save_file">💾 Also save as a file</string>
+    <string name="ai_loaded">The quiz is loaded into \"My questions\" – pick a level to start</string>
+    <string name="ai_saved">The quiz was saved to a file and loaded. You can edit it like any questions file.</string>
+    <string name="ai_topic_label">✍️ What is the quiz about?</string>
+    <string name="ai_topic_hint">e.g. Make me a quiz about World War II</string>
+    <string name="ai_pasted_name">Pasted text</string>
+    <string name="ai_count_hint">or another number (up to 300)</string>
+    <string name="ai_count_range">You can ask for 1 to %1$d questions</string>
+    <string name="ai_working_part">ChatGPT is writing the questions… part %1$d of %2$d (about a minute each)</string>
+    <string name="lib_save">💾 Save as…</string>
+    <string name="lib_open">📂 My quizzes</string>
+    <string name="lib_title">📂 My quizzes</string>
+    <string name="lib_save_title">💾 Save the quiz as</string>
+    <string name="lib_name_hint">Quiz name</string>
+    <string name="lib_save_button">Save</string>
+    <string name="lib_saved">Saved as \"%1$s\"</string>
+    <string name="lib_overwrite">There is already a quiz called \"%1$s\". Replace it?</string>
+    <string name="lib_replace">Replace</string>
+    <string name="lib_empty">No saved quizzes yet.\nLoad a file or make a quiz with AI, then tap \"Save as…\".</string>
+    <string name="lib_count">%1$d questions</string>
+    <string name="lib_load">▶ Load</string>
+    <string name="lib_export">📤 Export to a file</string>
+    <string name="lib_delete">🗑 Delete</string>
+    <string name="lib_delete_confirm">Delete the quiz \"%1$s\"?</string>
+    <string name="lib_deleted">The quiz \"%1$s\" was deleted</string>
+    <string name="lib_loaded">The quiz \"%1$s\" is loaded – pick a level to start</string>
+    <string name="options_barge_in">🗣️ Answer while the question is still being read (may slow recognition a little)</string>
+</resources>
